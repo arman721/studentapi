@@ -46,14 +46,14 @@ class StudentSerializer(serializers.ModelSerializer):
         # fields='__all__'
         fields=['id','name','age','city']
     #field level validation
-    def validate_age(self,value):
-        if value>20:
-            raise serializers.ValidationError("seat full")
-        return value
-    #object level validation
-    def validate(self, data):
-        n=data.get("name")
-        c=data.get("city")
-        if n[0].lower()!="r" or c.lower()!="cuttack":
-            raise serializers.ValidationError("City Must be cuttack and name should start with rohan")
-        return data    
+    # def validate_age(self,value):
+    #     if value>20:
+    #         raise serializers.ValidationError("seat full")
+    #     return value
+    # object level validation
+    # def validate(self, data):
+    #     n=data.get("name")
+    #     c=data.get("city")
+    #     if n[0].lower()!="r" or c.lower()!="cuttack":
+    #         raise serializers.ValidationError("City Must be cuttack and name should start with rohan")
+    #     return data    
