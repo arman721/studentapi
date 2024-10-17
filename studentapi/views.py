@@ -3,10 +3,18 @@ import io
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.authentication import (BasicAuthentication,
+                                           SessionAuthentication)
 from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
+from rest_framework.permissions import (DjangoModelPermissions,
+                                        DjangoModelPermissionsOrAnonReadOnly,
+                                        DjangoObjectPermissions, IsAdminUser,
+                                        IsAuthenticated,
+                                        IsAuthenticatedOrReadOnly)
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from studentapi.models import *
 from studentapi.serializer import StudentSerializer
@@ -73,6 +81,9 @@ from studentapi.serializer import StudentSerializer
 #         json_data=JSONRenderer().render(res)
 #         return HttpResponse(json_data)
     
+    
+    
+# #function based on api_view
 @api_view(['GET','POST','PUT','DELETE'])
 def Studentapi(request):
     if request.method=='POST':
@@ -105,4 +116,41 @@ def Studentapi(request):
         
         stu.delete()
         return Response({"msg":"Data deleted"})
-    
+class Studentapiview(APIView):
+    # authentication_classes=[BasicAuthentication]
+    authentication_classes=[SessionAuthentication]
+    # permission_classes=[IsAuthenticated]
+    # permission_classes=[IsAdminUser]
+    # permission_classes=[IsAuthenticatedOrReadOnly]
+    # permission_classes=[DjangoModelPermissions]
+    # permission_classes=[DjangoObjectPermissions]
+
+    def post(self,request,format=None):
+        serializer=StudentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            res={"msg":"Data saved"}
+            return Response(res)
+        return Response(serializer.errors)
+    def get(self,request,format=None,id=None):
+        
+        if id is not None:
+            stu=Students.objects.get(id=id)
+            serializer=StudentSerializer(stu)
+            return Response(serializer.data)
+        stu=Students.objects.all()
+        serializer=StudentSerializer(stu,many=True)
+        return Response(serializer.data)
+    def put(self,request,format=None,id=None):
+      
+        stu=Students.objects.get(id=id)
+        serializer=StudentSerializer(stu,data=request.data,partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"msg":"Data updated"})
+        return Response(serializer.errors)
+    def delete(self,request,format=None,id=None):
+ 
+        stu=Students.objects.get(id=id)
+        stu.delete()
+        return Response({"msg":"data deleted"})
