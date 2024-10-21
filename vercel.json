@@ -3,7 +3,7 @@
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "restapi/wsgi.py"
+            "dest": "restaapi/wsgi.py"
         }
     ]
 }
