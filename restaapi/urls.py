@@ -22,10 +22,10 @@ from studentapi.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('/',Studentapi),
     path('studentinfo/<int:id>',studentinfo),
     path('studentinfo/',studentlist),
     path('students/',Studentapi),
     path('studentsapi/<int:id>',Studentapiview.as_view()),
     path('studentsapi/',Studentapiview.as_view()),
-    path('auth/',include('rest_framework.urls',namespace="rest_framework"))
 ]
