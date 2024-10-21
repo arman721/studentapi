@@ -22,7 +22,7 @@ from studentapi.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('/',Studentapi),
+
     path('studentinfo/<int:id>',studentinfo),
     path('studentinfo/',studentlist),
     path('students/',Studentapi),
