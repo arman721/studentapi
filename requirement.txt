@@ -1,5 +1,5 @@
 asgiref==3.8.1
-Django==5.1
+django==5.1
 djangorestframework==3.15.2
 mysqlclient==2.2.4
 npm==0.1.1
