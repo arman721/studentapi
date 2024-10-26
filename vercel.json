@@ -1,5 +1,14 @@
 {
     "version": 2,
+    "builds": [
+      {
+        "src": "restaapi/wsgi.py",
+        "use": "@vercel/python",
+        "config": {
+        "pythonVersion": "3.12.4"
+      }
+      }
+    ],
     "routes": [
       {
         "src": "/(.*)",
